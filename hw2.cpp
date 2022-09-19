@@ -78,18 +78,19 @@ bool calculate(char * input, char * check, int target){
     else
         return false;
 }
-void backtracking(char *input, char  * symbol, char * check, int cur, int target){
+void backtracking(char *input, char  * symbol, char * check, int cur, int target, int *tmp){
     //cout << *tmp << endl;
     if(cur < 0){
         if(calculate(input, check, target)){
             print(input, check);
+            *tmp += 1;
             return;
         }
         return;
     }
     for(int i=0; i<4; i++){
         check[cur] = symbol[i];
-        backtracking(input, symbol, check, cur-1, target);
+        backtracking(input, symbol, check, cur-1, target, tmp);
     }
     check[cur] = 0;
     
@@ -113,7 +114,7 @@ int main(){
     }
     else{
         int tmp=0;
-        backtracking(input, symbol, check, len-2, target);
+        backtracking(input, symbol, check, len-2, target, &tmp);
         if(!tmp)
             cout << "None" << endl;
     }
