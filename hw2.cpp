@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string.h>
 using namespace std;
-//bool success;
+
 void print(char * input, char * check){
     int len = strlen(input);
     for(int i=0; i<len-1; i++){
@@ -11,12 +11,6 @@ void print(char * input, char * check){
         cout << check[i];
     }
     cout << input[len-1] << endl;
-}
-void find_star(char * check, bool *idx, int len){
-    for(int i=0; i<len; i++){
-        if(check[i] == '*')
-            idx[i] = true;
-    }
 }
 void concat_blank(int *arr, char * input, char * check){
     int len = strlen(input);
@@ -100,7 +94,6 @@ int main(){
     char input[11];
     char check[10];
     int target;
-    int *tmp = NULL;
 
     cin >> input >> target;
     int len = strlen(input);
