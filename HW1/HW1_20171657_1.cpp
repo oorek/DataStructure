@@ -27,8 +27,8 @@ void backtracking(char * input, bool * check, int cur, bool tmp){
     check[cur] = false;
 }
 int main(){
-    char input[11];
-    bool check[10];
+    char input[100];
+    bool check[100];
     for(int i=0; i<10; i++)
         check[i] = false;
     
@@ -37,6 +37,10 @@ int main(){
    
     input[len] = '\0';
     
+    if(len > 10){
+        cout << "Too many input! max 10 length" << endl;
+        return 0;
+    }
     if(len == 1)
         cout << input << endl;
     else{

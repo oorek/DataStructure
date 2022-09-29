@@ -73,7 +73,6 @@ bool calculate(char * input, char * check, int target){
         return false;
 }
 void backtracking(char *input, char  * symbol, char * check, int cur, int target, int *tmp){
-    //cout << *tmp << endl;
     if(cur < 0){
         if(calculate(input, check, target)){
             print(input, check);
@@ -91,14 +90,18 @@ void backtracking(char *input, char  * symbol, char * check, int cur, int target
 }
 int main(){
     char symbol[4] = {'+', '-', '*', ' '};
-    char input[11];
-    char check[10];
+    char input[100];
+    char check[100];
     int target;
 
     cin >> input >> target;
     int len = strlen(input);
     input[len] = '\0';
     
+    if(len > 10){
+        cout << "Too many input! max 10 length" << endl;
+        return 0;
+    }
     if(len == 1){
         if(input[0]-48 == target)
             cout << target << endl;
