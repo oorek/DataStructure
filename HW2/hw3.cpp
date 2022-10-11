@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string.h>
+//#include <string.h>
 using namespace std;
 
 class Student{
@@ -8,36 +8,120 @@ private:
     char first_name[50];
 public:
     Student(){
-        strcpy(last_name, "");
-        strcpy(first_name, "");
+        //strcpy(last_name, "");
+        //strcpy(first_name, "");
+        init_str(last_name);
+        init_str(first_name);
+    }
+    void init_str(char * name){
+        name[0] = '\0';
+    }
+    void replace_strcpy(char *str1, char * str2){
+        int i=0;
+        while(1){
+            if(str2[i] == '\0'){
+                break;
+            }
+            str1[i] = str2[i];
+            i++;
+        }
+        str1[i] = '\0';
+    }
+    int replace_strcmp(char *str1, char *str2){
+        int len1 = replace_strlen(str1);
+        int len2 = replace_strlen(str2);
+        if (len1 >= len2){
+            int i=0;
+            while(1){
+                if(str2[i] == '\0'){
+                    if(str1[i] == '\0')
+                        return 0;
+                    else
+                        return 1;
+                }
+                if(str1[i] == str2[i]){
+                    i++;
+                }
+                else if(str1[i] > str2[i]){
+                    return 1;
+                }
+                else{
+                    return -1;
+                }
+            }
+        }
+        else{
+            int i=0;
+            while(1){
+                if(str1[i] == '\0'){
+                    return -1;
+                }
+                if(str2[i] == str1[i]){
+                    i++;
+                }
+                else if(str2[i] > str1[i]){
+                    return -1;
+                }
+                else{
+                    return +1;
+                }
+            }
+        }
+
+    }
+    int replace_strlen(char * buffer_name){
+        int i=0;
+        int cnt=0;
+        while(1){
+            if(buffer_name[i++] == '\0'){
+                break;
+            }
+            cnt++;
+        }
+        return cnt;
     }
     void allocate(char * n_l, char * n_f){
-        strcpy(last_name, n_l);
-        strcpy(first_name, n_f);
+        //strcpy(last_name, n_l);
+        //strcpy(first_name, n_f);
+        replace_strcpy(last_name, n_l);
+        replace_strcpy(first_name, n_f);
     }
     bool compare(Student s){
-        if(!strcmp(this->last_name, s.last_name)){
-            return (strcmp(this->first_name, s.first_name) > 0) ? false : true;
+        if(!replace_strcmp(this->last_name, s.last_name)){
+            return (replace_strcmp(this->first_name, s.first_name) > 0) ? false : true;
         }
         else
-            return (strcmp(this->last_name, s.last_name) > 0) ? false : true;
+            return (replace_strcmp(this->last_name, s.last_name) > 0) ? false : true;
     }
     void print(){
         cout << last_name << " ";
         cout << first_name << endl;
     }
     void copy(Student *tmp){
-        strcpy(this->last_name, "");
-        strcpy(this->first_name, "");
-        strcpy(this->last_name, tmp->last_name);
-        strcpy(this->first_name, tmp->first_name);
+        init_str(this->last_name);
+        init_str(this->first_name);
+        replace_strcpy(this->last_name, tmp->last_name);
+        replace_strcpy(this->first_name, tmp->first_name);
     }
 };
+
+int replace_str(char * buffer_name){
+    int i=0;
+    int cnt=0;
+    while(1){
+        if(buffer_name[i++] == 0){
+            break;
+        }
+        cnt++;
+    }
+    return cnt;
+}
 void parse(char * name, char *n_f, char *n_l){
     int i=0;
     int j=0;
 
-    int len = strlen(name);
+    //int len = strlen(name);
+    int len = replace_str(name);
     while(name[i] != ' '){
         n_f[i] = name[i];
         i++;
@@ -71,14 +155,28 @@ int main(){
     }
     char n[5];
     fgets(n, 5, fp1);
-    int num = (*n - 48);
+    int num=0;
+    int mul=0;
+    for (int i=0;i<5;i++){
+        int tmp = n[i];
+        if(tmp == '\n' || tmp == 0){
+            break;
+        }
+        else{
+            if(i> 0)
+                mul = 10;
+            num *= mul;
+            num += (tmp-48);
+        }
+    }
+
     Student * p = new Student[num];
     char buffer_name[101];
     char buffer_last_name[50];
     char buffer_first_name[50];
     for(int i=0; i<num; i++){
         fgets(buffer_name, 100, fp1);
-        int len = strlen(buffer_name);
+        int len = replace_str(buffer_name);
         if(buffer_name[len-1] == '\n')
            buffer_name[len-1] = '\0';
         parse(buffer_name, buffer_last_name, buffer_first_name);
