@@ -55,6 +55,7 @@ precedence getToken(char tmp){
         default : return operand;
     }
 }
+//github
 void inverse(char *infix, char * ri){
     int len = strlen(infix);
     for(int i=0;i<len;i++){
