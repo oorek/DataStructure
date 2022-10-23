@@ -1,5 +1,4 @@
 #include <iostream>
-//#include <string.h>
 using namespace std;
 
 class Student{
@@ -43,9 +42,19 @@ public:
                     i++;
                 }
                 else if(str1[i] > str2[i]){
+                    if(str1[i] >= 97 && str2[i] <= 90 && str2[i] >= 65){ //str1은 소문자, str2는 대문자
+                        if(str1[i] >= str2[i] + 32)
+                            return 1;
+                        else return -1;
+                    }
                     return 1;
                 }
                 else{
+                    if(str2[i] >= 97 && str1[i] <= 90 && str1[i] >= 65){ 
+                        if(str2[i] >= str1[i] + 32)
+                            return -1;
+                        else return 1;
+                    }
                     return -1;
                 }
             }
@@ -60,20 +69,30 @@ public:
                     i++;
                 }
                 else if(str2[i] > str1[i]){
+                    if(str2[i] >= 97 && str1[i] <= 90 && str1[i] >= 65){ //str1은 소문자, str2는 대문자
+                        if(str2[i] >= str1[i] + 32)
+                            return -1;
+                        else return 1;
+                    }
                     return -1;
                 }
                 else{
-                    return +1;
+                    if(str1[i] >= 97 && str2[i] <= 90 && str2[i] >= 65){ //str1은 소문자, str2는 대문자
+                        if(str1[i] >= str2[i] + 32)
+                            return 1;
+                        else return -1;
+                    }
+                    return 1;
                 }
             }
         }
 
     }
-    int replace_strlen(char * buffer_name){
+    int replace_strlen(char * str){
         int i=0;
         int cnt=0;
         while(1){
-            if(buffer_name[i++] == '\0'){
+            if(str[i++] == '\0'){
                 break;
             }
             cnt++;
@@ -109,9 +128,10 @@ int replace_str(char * buffer_name){
     int i=0;
     int cnt=0;
     while(1){
-        if(buffer_name[i++] == 0){
+        if(buffer_name[i] < 32){
             break;
         }
+        i++;
         cnt++;
     }
     return cnt;
@@ -123,9 +143,15 @@ void parse(char * name, char *n_f, char *n_l){
     //int len = strlen(name);
     int len = replace_str(name);
     while(name[i] != ' '){
-        n_f[i] = name[i];
-        i++;
-        n_f[i] = '\0';
+        if(i < len){
+            n_f[i] = name[i];
+            i++;
+            n_f[i] = '\0';
+        }
+        if(i == len){
+            n_l[0] = '\0';
+            return;
+        }
     }
     i+=1;
     while(i < len)
@@ -177,8 +203,9 @@ int main(){
     for(int i=0; i<num; i++){
         fgets(buffer_name, 100, fp1);
         int len = replace_str(buffer_name);
-        if(buffer_name[len-1] == '\n')
-           buffer_name[len-1] = '\0';
+        //printf("%d\n", len);
+        //if(buffer_name[len-1] == '\n')
+        buffer_name[len] = '\0';
         parse(buffer_name, buffer_last_name, buffer_first_name);
         p[i].allocate(buffer_last_name, buffer_first_name);
         
