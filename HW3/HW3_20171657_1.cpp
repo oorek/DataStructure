@@ -28,8 +28,10 @@ public:
         stack[top--] = 0;
     }
     T Top(){
-        if(top < 0)
+        if(top < 0){
             cout << "error" << endl;
+            exit(0);
+        }
         else
             return stack[top];
     }
@@ -125,6 +127,7 @@ int cal(int op1, int op2, char Operator){
         case '*' : return op1 * op2;
         case '/' : return op1 / op2;
         case '%' : return op1 % op2;
+        default : return 0;
     }
 }
 int cal_postfix(char * postfix){
@@ -165,32 +168,23 @@ int cal_postfix(char * postfix){
 int main(){
     char infix[30];
     char postfix[30];
-    char symbol_ascii[9];
     // lparen, rparen, unary, plus, minus, times, divide, mod, eos
     int isp[] = {0,19,15,12,12,13,13,13,0};
     int icp[] = {20,19,15,12,12,13,13,13,0};
-    /*
-    symbol_ascii[0] = 40;
-    symbol_ascii[1] = 41;
-    symbol_ascii[2] = 35;
-    symbol_ascii[3] = 43;
-    symbol_ascii[4] = 45;
-    symbol_ascii[5] = 42;
-    symbol_ascii[6] = 47;
-    symbol_ascii[7] = 37;*/
+
     
     for(int i=0; i<30;i++){
         infix[i] = '\0';
         postfix[i] = '\0';
     }
-
+    cout << "Input: ";
     cin >> infix;
     
     infix_to_postfix(infix, postfix, isp, icp);
     
-    cout << postfix << endl;
+    cout << "Postfix: " << postfix << endl;
 
-    cout << cal_postfix(postfix) << endl;
+    cout << "Result: " << cal_postfix(postfix) << endl;
 
     return 0;
 }

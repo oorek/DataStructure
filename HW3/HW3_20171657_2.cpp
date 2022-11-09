@@ -29,8 +29,10 @@ public:
         stack[top--] = '\0';
     }
     T Top(){
-        if(top < 0)
+        if(top < 0){
             cout << "error" << endl;
+            exit(0);
+        }
         else
             return stack[top];
     }
@@ -164,9 +166,9 @@ void infix_to_prefix(char *infix, char *prefix, int *isp, int *icp){
 }
 
 int main(){
+    //typedef enum {lparen, rparen, unary, Plus, Minus, times, divide, mod, eos, operand} precedence;
     char infix[30];
     char prefix[30];
-    char symbol_ascii[9];
     // lparen, rparen, unary, plus, minus, times, divide, mod, eos
     int isp[] = {0,19,15,12,12,13,13,13,0};
     int icp[] = {20,19,15,12,12,13,13,13,0};
@@ -175,11 +177,12 @@ int main(){
         infix[i] = '\0';
         prefix[i] = '\0';
     }
+    cout << "Infix: ";
     cin >> infix;
 
     infix_to_prefix(infix, prefix, isp, icp);
 
-    cout << prefix << endl;
+    cout << "Prefix: " << prefix << endl;
 
     return 0;
 }
