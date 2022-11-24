@@ -4,11 +4,11 @@ using namespace std;
 #define MAX_SIZE 50
 typedef enum{head, entry} tagfield;
 typedef struct max_node * matrix_pointer;
-typedef struct entry_node{
+typedef struct {
     int row;
     int col;
     int value;
-};
+}entry_node;
 typedef struct max_node{
     matrix_pointer down;
     matrix_pointer right;
@@ -109,7 +109,7 @@ matrix_pointer mread(FILE * fp1){
         matrix_pointer last;
         last= hdnode[0];
         for(int i=0; i<num_terms;i++){
-            char n[10];
+           // char n[10];
             // input 받기 
             int rrow, ccol, vvalue;
             parse(&rrow, &ccol, &vvalue, fp1);
@@ -167,13 +167,12 @@ matrix_pointer mtranspose(matrix_pointer node){
         matrix_pointer traverse = hdnode[i]->down;
         while(traverse != hdnode[i]){
             last_row = i;
-            printf("%d\n", i);
             matrix_pointer temp = (matrix_pointer)malloc(sizeof(max_node));
             temp->tag = entry;
             temp->u.entry.row = traverse->u.entry.col;
             temp->u.entry.col = traverse->u.entry.row;
             temp->u.entry.value = traverse->u.entry.value;
-            printf("%d %d %d %d\n", i, temp->u.entry.row, temp->u.entry.col,temp->u.entry.value);
+           // printf("%d %d %d %d\n", i, temp->u.entry.row, temp->u.entry.col,temp->u.entry.value);
             Last = hdnode_t[temp->u.entry.col];
             Last->u.next->down = temp;
             Last->u.next = temp;
@@ -191,17 +190,18 @@ matrix_pointer mtranspose(matrix_pointer node){
         hdnode_t[i]->u.next = hdnode_t[i+1];
     hdnode_t[num_heads-1]->u.next = t_node;
     t_node->right = hdnode_t[0];
-    printf("address node %u\n",t_node);
     return t_node;
 }
 void mwrite(matrix_pointer node, FILE * fp2){
     matrix_pointer tmp;
     matrix_pointer head = node->right;
-    printf("\n num_rows=%d, num_cols=%d\n", node->u.entry.row, node->u.entry.col);
-    printf(" The matrix by row, column, and value: \n\n");
+   // printf("\n num_rows=%d, num_cols=%d\n", node->u.entry.row, node->u.entry.col);
+    fprintf(fp2, "%d %d %d\n", node->u.entry.row, node->u.entry.col, node->u.entry.value);
+    //printf(" The matrix by row, column, and value: \n\n");
     for(int i=0; i< node->u.entry.row;i++){
         for(tmp=head->right; tmp != head; tmp = tmp->right){
-            printf("%5d%5d%5d\n",tmp->u.entry.row, tmp->u.entry.col, tmp->u.entry.value);
+           // printf("%5d%5d%5d\n",tmp->u.entry.row, tmp->u.entry.col, tmp->u.entry.value);
+           fprintf(fp2, "%d %d %d\n", tmp->u.entry.row, tmp->u.entry.col, tmp->u.entry.value);
         }
         head = head->u.next;
     }
@@ -212,7 +212,6 @@ int main(){
     FILE *fp2 = fopen("output.txt", "w");
     matrix_pointer node = mread(fp1);
     matrix_pointer t_node = mtranspose(node);
-    printf("address node %u\n",t_node);
     mwrite(t_node, fp2);
     fclose(fp1);
     fclose(fp2);    

@@ -130,7 +130,6 @@ poly_pointer padd(poly_pointer buffer, poly_pointer buffer2, poly_pointer d){
         poly_pointer start_buffer2 = buffer2;
         poly_pointer bef = buffer;
         poly_pointer bef2 = buffer2;
-        int cnt=0;
         do{
            // printf("cnt : %d\n", cnt++);
            // printf("%d %d\n", buffer->coef, buffer->expon);
